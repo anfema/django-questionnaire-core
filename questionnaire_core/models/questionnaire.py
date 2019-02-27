@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 
-from django import forms
 from django.contrib.postgres.fields import JSONField
 from django.db import models, transaction
 from django.utils.encoding import python_2_unicode_compatible
@@ -91,13 +90,6 @@ class Question(OrderedModel):
     @property
     def question_type_obj(self):
         return self.question_type_class()(question=self)
-
-    def clean(self):
-        # validate question_options (varies depending on question_type)
-        try:
-            self.question_type_obj.clean_question_options(self.question_options)
-        except forms.ValidationError as e:
-            raise forms.ValidationError({'question_options': e})
 
     def __str__(self):
         return Truncator(self.question_text).chars(20)

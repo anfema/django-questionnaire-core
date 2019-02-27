@@ -8,6 +8,10 @@ class ChoicesBase(QuestionTypeBase):
     class Meta:
         abstract = True
 
+    class OptionsForm(forms.Form):
+        empty_label = forms.CharField(required=False)
+        # choices = EditChoicesField()
+
     def clean_question_options(self, question_options):
         """
         expected question_options format:
@@ -68,6 +72,9 @@ class ChoicesMultiple(ChoicesBase):
 
     def formfield(self, result_set):
         choices = [(c.get('value'), c.get('label')) for c in self.question.question_options.get('choices')]
+
+        if self.question.question_options.get('empty_label'):
+            choices = [('', self.question.question_options.get('empty_label'))] + choices
 
         return forms.MultipleChoiceField(
             widget=self.formfield_widget(),

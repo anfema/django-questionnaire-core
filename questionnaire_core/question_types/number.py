@@ -10,6 +10,10 @@ class NumberBase(QuestionTypeBase):
     class Meta:
         abstract = True
 
+    class OptionsForm(forms.Form):
+        min = forms.IntegerField(required=False)
+        max = forms.IntegerField(required=False)
+
     def clean_question_options(self, question_options):
         """
         expected question_options format:
@@ -40,6 +44,9 @@ class NumberInteger(NumberBase):
         verbose_name = 'Number (Integer)'
         widget_class = forms.NumberInput
 
+    class OptionsForm(NumberBase.OptionsForm):
+        pass
+
     def formfield(self, result_set):
         min_value = self.question.question_options.get('min')
         max_value = self.question.question_options.get('max')
@@ -58,6 +65,9 @@ class NumberDecimal(NumberBase):
         name = 'number_decimal'
         verbose_name = 'Number (Decimal)'
         widget_class = forms.NumberInput
+
+    class OptionsForm(NumberBase.OptionsForm):
+        decimal_places = forms.IntegerField(required=False)
 
     def clean_question_options(self, question_options):
         """
@@ -103,6 +113,9 @@ class NumberPercent(NumberBase):
         name = 'number_percent'
         verbose_name = 'Number (Percent)'
         widget_class = forms.NumberInput
+
+    class OptionsForm(NumberBase.OptionsForm):
+        pass
 
     def formfield(self, result_set):
         min_value = self.question.question_options.get('min', 0)
