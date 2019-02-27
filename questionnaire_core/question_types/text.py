@@ -8,6 +8,10 @@ class TextBase(QuestionTypeBase):
     class Meta:
         abstract = True
 
+    class OptionsForm(forms.Form):
+        min_length = forms.IntegerField(required=False)
+        max_length = forms.IntegerField(required=False)
+
     def clean_question_options(self, question_options):
         """
         expected question_options format:

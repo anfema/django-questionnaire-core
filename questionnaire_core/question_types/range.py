@@ -15,6 +15,11 @@ class RangeSlider(QuestionTypeBase):
         verbose_name = 'Range (slider)'
         widget_class = SliderInput
 
+    class OptionsForm(forms.Form):
+        min = forms.IntegerField(required=True)
+        max = forms.IntegerField(required=True)
+        step = forms.IntegerField(required=True)
+
     def clean_question_options(self, question_options):
         """
         expected question_options format:

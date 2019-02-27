@@ -2,6 +2,7 @@
 import inspect
 import string
 
+from django import forms
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.template.engine import Engine
 from django.template.exceptions import TemplateDoesNotExist
@@ -126,8 +127,18 @@ class QuestionTypeMeta(type):
 class QuestionTypeBase(object):
     """Base class for question type classes"""
 
+    class OptionsForm(forms.Form):
+        pass
+
     def __init__(self, question):
         self.question = question
+
+    def question_option_form(self, *args, **kwargs):  # arg0: request (optional)
+        return self.OptionsForm
+
+    @classmethod
+    def question_option_form_fields(cls):
+        return cls.OptionsForm.base_fields
 
     def clean_question_options(self, question_options):
         """Clean question options (`Question.question_options`).

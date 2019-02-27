@@ -45,6 +45,11 @@ class MultipleText(QuestionTypeBase):
         multiple = True
         widget_class = MultipleTextWidget
 
+    class OptionsForm(forms.Form):
+        min = forms.IntegerField(required=False)
+        min_length = forms.IntegerField(required=False)
+        max_length = forms.IntegerField(required=False)
+
     def clean_question_options(self, question_options):
         if 'min' in question_options:
             try:
