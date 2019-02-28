@@ -9,9 +9,6 @@ from django.template.exceptions import TemplateDoesNotExist
 from django.utils.six import add_metaclass
 
 
-template_engine = Engine.get_default()
-
-
 class QuestionTypeRegistry(object):
     """Registry for question type classes."""
     _registered_types = {}
@@ -62,33 +59,35 @@ class Options(object):
         self.verbose_name = meta.get('verbose_name')
         self.multiple = meta.get('multiple', False)
         self.widget_class = meta.get('widget_class', None)
-        self.widget_template_name = None
-        self.widget_option_template_name = None
+        self._widget_template_name = meta.get('widget_template_name')
+        self._widget_option_template_name = meta.get('widget_option_template_name')
 
-        for template_key in ('template_name', 'option_template_name'):
-            self.select_template(meta, template_key)
+    @property
+    def widget_template_name(self):
+        return self._widget_template_name or self.select_default_template('template_name')
 
-    def select_template(self, meta, template_key):
-        """Select template for the formfield widget."""
-        meta_template_key = 'widget_{}'.format(template_key)
-        if meta.get(meta_template_key):
-            # try to load explicitly specified template
-            custom_template = template_engine.get_template(meta.get(meta_template_key))
-            setattr(self, meta_template_key, custom_template.name)
+    @property
+    def widget_option_template_name(self):
+        return self._widget_option_template_name or self.select_default_template('option_template_name')
+
+    def select_default_template(self, template_key):
+        """Select default template for the formfield widget.
+
+        Returns the packaged template for the widget if available.
+        """
+        if template_key == 'template_name':
+            default_template = 'questionnaire_core/widgets/{name}.html'.format(name=self.name)
+        elif template_key == 'option_template_name':
+            default_template = 'questionnaire_core/widgets/{name}_option.html'.format(name=self.name)
         else:
-            # fallback to packaged template
-            try:
-                if template_key == 'template_name':
-                    default_template = 'questionnaire_core/widgets/{name}.html'.format(name=self.name)
-                elif template_key == 'option_template_name':
-                    default_template = 'questionnaire_core/widgets/{name}_option.html'.format(name=self.name)
-                else:
-                    return
-                packaged_template = template_engine.get_template(default_template)
-                setattr(self, meta_template_key, packaged_template.name)
-            except TemplateDoesNotExist:
-                # or use the django default template for the widget
-                pass
+            return
+
+        try:
+            template_engine = Engine.get_default()
+            packaged_template = template_engine.get_template(default_template)
+            return packaged_template.name
+        except TemplateDoesNotExist:
+            return
 
 
 class QuestionTypeMeta(type):
@@ -115,7 +114,7 @@ class QuestionTypeMeta(type):
 
         new_class = super_new(mcs, name, bases, attrs)
 
-        # create meta attribute (instance of QuestionTypeOptions) from new_class.Meta (similar to Model._meta)
+        # create meta attribute (instance of Options) from new_class.Meta (similar to Model._meta)
         setattr(new_class, 'meta', Options(new_class, attr_meta.__dict__))
 
         QuestionTypeRegistry.register(new_class)
