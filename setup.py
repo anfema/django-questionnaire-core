@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="django-questionnaire-core",
-    version="1.2.0",
+    version="1.2.1",
     author="anfema GmbH",
     author_email="contact@anfe.ma",
     description="A django application which can be used as a base / starting point for questionnaire functionality in your project.",
