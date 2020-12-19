@@ -1,3 +1,11 @@
-# -*- coding: utf-8 -*-
-from .questionnaire import Questionnaire, Question  # NOQA
-from .result import QuestionnaireResult, QuestionAnswer, AnswerFile  # NOQA
+from .questionnaire import Questionnaire, Question
+from .result import QuestionnaireResult, QuestionAnswer, AnswerFile
+
+
+__all__ = (
+    'Questionnaire',
+    'Question',
+    'QuestionnaireResult',
+    'QuestionAnswer',
+    'AnswerFile',
+)

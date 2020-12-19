@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django import forms
 from django.forms import widgets
 
@@ -67,7 +66,7 @@ class RangeSlider(QuestionTypeBase):
         return question_options
 
     def initial_field_value(self, result_set):
-        initial = super(RangeSlider, self).initial_field_value(result_set)
+        initial = super().initial_field_value(result_set)
         return initial or self.question.question_options.get('initial')
 
     def formfield_widget_attrs(self):
@@ -76,7 +75,7 @@ class RangeSlider(QuestionTypeBase):
             'max': self.question.question_options.get('max'),
             'step': self.question.question_options.get('step', 1),
         }
-        attrs.update(super(RangeSlider, self).formfield_widget_attrs())
+        attrs.update(super().formfield_widget_attrs())
         return attrs
 
     def formfield(self, result_set):

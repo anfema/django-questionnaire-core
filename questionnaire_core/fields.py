@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
@@ -7,7 +6,7 @@ from . import settings
 
 class QuestionTypeField(models.CharField):
     def deconstruct(self):
-        name, path, args, kwargs = super(QuestionTypeField, self).deconstruct()
+        name, path, args, kwargs = super().deconstruct()
         # don't serialize kwargs set at runtime
         kwargs.pop('choices', None)
         return name, path, args, kwargs
@@ -25,10 +24,10 @@ class DynamicStorageFileField(models.FileField):
             kwargs['validators'].append(
                 FileExtensionValidator(allowed_extensions=settings.upload_allowed_file_extensions)
             )
-        super(DynamicStorageFileField, self).__init__(verbose_name, name, upload_to, storage, **kwargs)
+        super().__init__(verbose_name, name, upload_to, storage, **kwargs)
 
     def deconstruct(self):
-        name, path, args, kwargs = super(DynamicStorageFileField, self).deconstruct()
+        name, path, args, kwargs = super().deconstruct()
         # don't serialize kwargs set at runtime by project settings
         kwargs.pop('storage', None)
         kwargs.pop('upload_to', None)

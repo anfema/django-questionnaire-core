@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django import forms
 from django.db import transaction
 
@@ -13,7 +12,7 @@ class QuestionnaireFormBase(forms.Form):
         # Property which can optionally be passed into form which sets all fields to disabled.
         readonly_form = kwargs.pop('is_readonly', False)
 
-        super(QuestionnaireFormBase, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if readonly_form:
             for field_id, field in self.fields.items():
@@ -39,7 +38,7 @@ class QuestionnaireFormBase(forms.Form):
             except forms.ValidationError as e:
                 self.add_error(field_id, e)
 
-        return super(QuestionnaireFormBase, self).clean()
+        return super().clean()
 
     @transaction.atomic
     def save(self, result_meta=None):

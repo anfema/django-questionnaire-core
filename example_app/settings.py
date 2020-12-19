@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Minimal settings file to develop questionnaire_core.
 Use `settings_local.py` to override any settings.

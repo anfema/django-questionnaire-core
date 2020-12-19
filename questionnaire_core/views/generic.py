@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.views.generic import FormView
 
 
@@ -37,4 +36,4 @@ class QuestionnaireFormView(FormView):
 
     def form_valid(self, form):
         form.save()
-        return super(QuestionnaireFormView, self).form_valid(form)
+        return super().form_valid(form)

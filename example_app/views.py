@@ -22,6 +22,6 @@ class BasicQuestionnaireView(QuestionnaireFormView):
 
     def form_valid(self, form):
         # Add current result set to the url (allows editing of the result)
-        redirect = super(BasicQuestionnaireView, self).form_valid(form)
+        redirect = super().form_valid(form)
         url_params = urlencode({'result_set': form.current_result_set.pk})
         return HttpResponseRedirect('{url}?{params}'.format(url=redirect.url, params=url_params))

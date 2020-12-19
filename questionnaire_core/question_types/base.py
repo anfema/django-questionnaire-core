@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import inspect
 import string
 
@@ -8,7 +7,7 @@ from django.template.engine import Engine
 from django.template.exceptions import TemplateDoesNotExist
 
 
-class QuestionTypeRegistry(object):
+class QuestionTypeRegistry:
     """Registry for question type classes."""
     _registered_types = {}
 
@@ -35,7 +34,7 @@ class QuestionTypeRegistry(object):
             return
 
 
-class Options(object):
+class Options:
     """Class to hold `meta` options of a question type class."""
     REQUIRED = ('name', 'verbose_name')
     NAME_VALID_CHARS = string.ascii_lowercase + string.digits + '_'

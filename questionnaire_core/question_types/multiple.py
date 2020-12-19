@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django import forms
 from django.forms import widgets
 
@@ -16,14 +15,14 @@ class MultipleTextField(forms.MultiValueField):
 
     def __init__(self, fields, *args, **kwargs):
         self._question_type = kwargs.pop('question_type', None)
-        super(MultipleTextField, self).__init__(fields, *args, **kwargs)
+        super().__init__(fields, *args, **kwargs)
 
     def compress(self, data_list):
         # drop empty entries
         return [v for v in data_list if v]
 
     def clean(self, value):
-        compressed_value = super(MultipleTextField, self).clean(value)
+        compressed_value = super().clean(value)
         question = self._question_type.question
         if len(compressed_value) < question.question_options.get('min', 1 if question.required else 0):
             raise forms.ValidationError(self.error_messages['required'], code='required')
@@ -75,7 +74,7 @@ class MultipleText(QuestionTypeBase):
             attrs.update({'minlength': self.question.question_options.get('min_length')})
         if self.question.question_options.get('max_length'):
             attrs.update({'maxlength': self.question.question_options.get('max_length')})
-        attrs.update(super(MultipleText, self).formfield_widget_attrs())
+        attrs.update(super().formfield_widget_attrs())
         return attrs
 
     def formfield(self, result_set, min_fields=1):

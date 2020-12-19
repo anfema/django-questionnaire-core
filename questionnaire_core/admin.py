@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import json
 
 from django.contrib import admin
@@ -16,7 +13,7 @@ try:
 except ImportError:
     class OrderedInlineModelAdminMixin(object):
         def get_urls(self):
-            urls = super(OrderedInlineModelAdminMixin, self).get_urls()
+            urls = super().get_urls()
             for inline in self.inlines:
                 if hasattr(inline, 'get_urls'):
                     urls = inline.get_urls(self) + urls

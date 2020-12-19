@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from decimal import Decimal
 
 from django import forms
@@ -79,7 +78,7 @@ class NumberDecimal(NumberBase):
         }
         """
 
-        question_options = super(NumberDecimal, self).clean_question_options(question_options)
+        question_options = super().clean_question_options(question_options)
 
         if 'decimal_places' in question_options:
             try:
