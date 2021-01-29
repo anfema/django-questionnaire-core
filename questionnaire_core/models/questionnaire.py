@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from django.contrib.postgres.fields import JSONField
 from django.db import models, transaction
-from django.utils.encoding import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 from django.utils.text import Truncator
 from ordered_model.models import OrderedModel
 

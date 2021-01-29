@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from django.contrib.postgres.fields import JSONField
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 from ordered_model.models import OrderedModel
 
 from ..fields import DynamicStorageFileField

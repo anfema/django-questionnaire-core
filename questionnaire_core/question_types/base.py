@@ -6,7 +6,7 @@ from django import forms
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.template.engine import Engine
 from django.template.exceptions import TemplateDoesNotExist
-from django.utils.six import add_metaclass
+from six import add_metaclass
 
 
 class QuestionTypeRegistry(object):
