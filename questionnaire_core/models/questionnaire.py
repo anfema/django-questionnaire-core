@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
 from django.db import models, transaction
-from six import python_2_unicode_compatible
 from django.utils.text import Truncator
 from ordered_model.models import OrderedModel
 
@@ -22,7 +21,6 @@ class QuestionnaireManager(models.Manager):
         return self.get_queryset().prefetch_related('questions')
 
 
-@python_2_unicode_compatible
 class Questionnaire(models.Model):
     title = models.CharField(max_length=200)
 
@@ -69,7 +67,6 @@ class Questionnaire(models.Model):
         return questionnaire_copy
 
 
-@python_2_unicode_compatible
 class Question(OrderedModel):
     questionnaire = models.ForeignKey(Questionnaire, related_name='questions', on_delete=models.CASCADE)
     question_text = models.CharField(max_length=5000)

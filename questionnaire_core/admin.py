@@ -4,9 +4,9 @@ from __future__ import unicode_literals
 import json
 
 from django.contrib import admin
-from django.contrib.postgres import fields as postgres_fields
 from django.forms import widgets
 from ordered_model.admin import OrderedTabularInline
+from django.db.models import JSONField
 
 from .models import Question, QuestionAnswer, Questionnaire, QuestionnaireResult
 
@@ -38,7 +38,7 @@ class QuestionnaireQuestionListModelInline(OrderedTabularInline):
     extra = 1
     ordering = ('order',)
     formfield_overrides = {
-        postgres_fields.JSONField: {
+        JSONField: {
             'widget': PrettyJSONWidget
         },
     }
