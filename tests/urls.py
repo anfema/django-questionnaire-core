@@ -1,5 +1,4 @@
-from django.conf.urls import url
-from django.urls import reverse
+from django.urls import path, reverse
 
 from questionnaire_core.models import Questionnaire, QuestionnaireResult
 from questionnaire_core.views.generic import QuestionnaireFormView
@@ -19,5 +18,5 @@ class TestQuestionnaireView(QuestionnaireFormView):
 
 
 urlpatterns = (
-    url(r'^questionnaire/$', TestQuestionnaireView.as_view(), name='test_view'),
+    path('questionnaire/', TestQuestionnaireView.as_view(), name='test_view'),
 )
