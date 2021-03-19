@@ -6,7 +6,6 @@ from django import forms
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.template.engine import Engine
 from django.template.exceptions import TemplateDoesNotExist
-from django.utils.six import add_metaclass
 
 
 class QuestionTypeRegistry(object):
@@ -122,8 +121,7 @@ class QuestionTypeMeta(type):
         return new_class
 
 
-@add_metaclass(QuestionTypeMeta)
-class QuestionTypeBase(object):
+class QuestionTypeBase(object, metaclass=QuestionTypeMeta):
     """Base class for question type classes"""
 
     class OptionsForm(forms.Form):

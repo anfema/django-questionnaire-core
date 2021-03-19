@@ -3,7 +3,6 @@ from collections import OrderedDict
 
 from django.contrib.postgres.fields import JSONField
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from ordered_model.models import OrderedModel
 
 from ..fields import DynamicStorageFileField
@@ -15,7 +14,6 @@ class QuestionnaireResultManager(models.Manager):
         return self.get_queryset().prefetch_related('answers')
 
 
-@python_2_unicode_compatible
 class QuestionnaireResult(models.Model):
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
     result_meta = JSONField(
@@ -43,7 +41,6 @@ class QuestionnaireResult(models.Model):
         return u'{} ({})'.format(self.questionnaire, self.created_at)
 
 
-@python_2_unicode_compatible
 class QuestionAnswer(OrderedModel):
     result_set = models.ForeignKey(QuestionnaireResult, related_name='answers', on_delete=models.CASCADE)
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
