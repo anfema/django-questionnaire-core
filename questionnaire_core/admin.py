@@ -3,6 +3,7 @@ import json
 from django.contrib import admin
 from django.contrib.postgres import fields as postgres_fields
 from django.forms import widgets
+
 from ordered_model.admin import OrderedTabularInline
 
 from .models import Question, QuestionAnswer, Questionnaire, QuestionnaireResult

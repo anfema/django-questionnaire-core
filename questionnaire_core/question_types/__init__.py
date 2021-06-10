@@ -5,7 +5,7 @@ from .file_upload import FileUpload
 from .multiple import MultipleText
 from .number import NumberDecimal, NumberInteger, NumberPercent
 from .range import RangeSlider
-from .text import TextShort, TextLong
+from .text import TextLong, TextShort
 
 
 __all__ = (

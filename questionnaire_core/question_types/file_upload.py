@@ -52,7 +52,7 @@ class FileUpload(QuestionTypeBase):
             return None
 
     def save(self, result_set, file_upload):
-        from ..models import QuestionAnswer, AnswerFile
+        from ..models import AnswerFile, QuestionAnswer
 
         if file_upload is None:
             return

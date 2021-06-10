@@ -1,5 +1,5 @@
-from .questionnaire import Questionnaire, Question
-from .result import QuestionnaireResult, QuestionAnswer, AnswerFile
+from .questionnaire import Question, Questionnaire
+from .result import AnswerFile, QuestionAnswer, QuestionnaireResult
 
 
 __all__ = (

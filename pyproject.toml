@@ -12,4 +12,4 @@ lines_after_imports = 2
 known_first_party = ["questionnaire_core"]
 known_django = ["django"]
 sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
-skip = ["migrations"]
+skip = ["migrations", "manage.py", "runtests.py"]

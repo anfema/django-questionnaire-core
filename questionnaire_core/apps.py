@@ -7,7 +7,6 @@ class QuestionnaireCoreConfig(AppConfig):
     def ready(self):
         # validate settings on startup
         from . import settings
-
         # update question type choices on `Question` model
         from .models import Question
         question_type_choices = [(qt.meta.name, qt.meta.verbose_name) for qt in settings.active_question_types]
