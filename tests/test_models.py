@@ -3,7 +3,6 @@ from questionnaire_core.models import Questionnaire
 from .base import TestCaseBase
 
 
-# Create your tests here.
 class ModelTestCase(TestCaseBase):
 
     def test_questionnaire_test1_created(self):

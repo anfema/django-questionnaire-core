@@ -5,11 +5,10 @@ from questionnaire_core.forms import QuestionnaireFormBase
 from .base import TestCaseBase
 
 
-# Create your tests here.
 class ViewTestCase(TestCaseBase):
 
     def test_generic_view_get(self):
-        """Generic view renders"""
+        """Generic view renders on GET"""
         response = self.client.get(reverse('test_view'))
 
         self.assertEqual(response.status_code, 200)
