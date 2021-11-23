@@ -1,6 +1,5 @@
 from collections import OrderedDict
 
-from django.contrib.postgres.fields import JSONField
 from django.db import models, transaction
 from django.utils.text import Truncator
 
@@ -9,6 +8,13 @@ from ordered_model.models import OrderedModel
 from ..fields import QuestionTypeField
 from ..forms import QuestionnaireFormBase
 from ..question_types import QuestionTypeRegistry
+
+
+try:
+    # there is no difference in the (postgres) schema, so we can easily swap between the two
+    from django.db.models import JSONField
+except ImportError:
+    from django.contrib.postgres.fields.jsonb import JSONField
 
 
 def builtin_question_types():
