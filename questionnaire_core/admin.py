@@ -10,6 +10,13 @@ from .models import Question, QuestionAnswer, Questionnaire, QuestionnaireResult
 
 
 try:
+    # there is no difference in the (postgres) schema, so we can easily swap between the two
+    from django.db.models import JSONField
+except ImportError:
+    from django.contrib.postgres.fields.jsonb import JSONField
+
+
+try:
     from ordered_model.admin import OrderedInlineModelAdminMixin  # v3+
 except ImportError:
     class OrderedInlineModelAdminMixin(object):
@@ -36,7 +43,7 @@ class QuestionnaireQuestionListModelInline(OrderedTabularInline):
     extra = 1
     ordering = ('order',)
     formfield_overrides = {
-        postgres_fields.JSONField: {
+        JSONField: {
             'widget': PrettyJSONWidget
         },
     }
