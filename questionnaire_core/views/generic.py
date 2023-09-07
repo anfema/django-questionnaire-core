@@ -3,6 +3,7 @@ from django.views.generic import FormView
 
 class QuestionnaireFormView(FormView):
     """Generic view for questionnaires."""
+
     form_class = None
 
     def get_questionnaire(self):

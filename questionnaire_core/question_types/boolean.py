@@ -1,13 +1,19 @@
+import django
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+
+
+if django.VERSION < (3, 2):
+    from django.utils.translation import ugettext_lazy as _
+else:
+    from django.utils.translation import gettext_lazy as _
 
 from .base import QuestionTypeBase
 
 
 class Boolean(QuestionTypeBase):
     class Meta:
-        name = 'boolean'
-        verbose_name = 'Boolean (Checkbox)'
+        name = "boolean"
+        verbose_name = _("Boolean (Checkbox)")
         widget_class = forms.CheckboxInput
 
     def formfield(self, result_set):
@@ -20,8 +26,8 @@ class Boolean(QuestionTypeBase):
 
 class BooleanYesNo(QuestionTypeBase):
     class Meta:
-        name = 'boolean_yesno'
-        verbose_name = 'Boolean (Yes/No)'
+        name = "boolean_yesno"
+        verbose_name = _("Boolean (Yes/No)")
         widget_class = forms.RadioSelect
 
     def formfield(self, result_set):
@@ -29,6 +35,6 @@ class BooleanYesNo(QuestionTypeBase):
             widget=self.formfield_widget(),
             label=self.question.question_text,
             required=self.question.required,
-            coerce=lambda x: x == 'True',
-            choices=((True, _('Yes')), (False, _('No'))),
+            coerce=lambda x: x == "True",
+            choices=((True, _("Yes")), (False, _("No"))),
         )

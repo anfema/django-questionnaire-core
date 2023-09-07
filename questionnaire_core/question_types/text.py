@@ -1,4 +1,11 @@
+import django
 from django import forms
+
+
+if django.VERSION < (3, 2):
+    from django.utils.translation import ugettext_lazy as _
+else:
+    from django.utils.translation import gettext_lazy as _
 
 from .base import QuestionTypeBase
 
@@ -20,15 +27,15 @@ class TextBase(QuestionTypeBase):
         }
         """
 
-        if 'min_length' in question_options:
+        if "min_length" in question_options:
             try:
-                question_options['min_length'] = int(question_options['min_length'])
+                question_options["min_length"] = int(question_options["min_length"])
             except ValueError:
                 raise forms.ValidationError('value for "min_length" is not an integer')
 
-        if 'max_length' in question_options:
+        if "max_length" in question_options:
             try:
-                question_options['max_length'] = int(question_options['max_length'])
+                question_options["max_length"] = int(question_options["max_length"])
             except ValueError:
                 raise forms.ValidationError('value for "max_length" is not an integer')
 
@@ -37,13 +44,13 @@ class TextBase(QuestionTypeBase):
 
 class TextShort(TextBase):
     class Meta:
-        name = 'text_short'
-        verbose_name = 'Text (Short)'
+        name = "text_short"
+        verbose_name = _("Text (Short)")
         widget_class = forms.TextInput
 
     def formfield(self, result_set):
-        min_length = self.question.question_options.get('min_length')
-        max_length = self.question.question_options.get('max_length')
+        min_length = self.question.question_options.get("min_length")
+        max_length = self.question.question_options.get("max_length")
 
         return forms.CharField(
             widget=self.formfield_widget(),
@@ -56,13 +63,13 @@ class TextShort(TextBase):
 
 class TextLong(TextBase):
     class Meta:
-        name = 'text_long'
-        verbose_name = 'Text (Long)'
+        name = "text_long"
+        verbose_name = _("Text (Long)")
         widget_class = forms.Textarea
 
     def formfield(self, result_set):
-        min_length = self.question.question_options.get('min_length')
-        max_length = self.question.question_options.get('max_length')
+        min_length = self.question.question_options.get("min_length")
+        max_length = self.question.question_options.get("max_length")
 
         return forms.CharField(
             widget=self.formfield_widget(),

@@ -18,13 +18,16 @@ except ImportError:
 
 
 def builtin_question_types():
-    for question_type in sorted(QuestionTypeRegistry.get_question_types().values(), key=lambda q: q.meta.verbose_name):
+    for question_type in sorted(
+        QuestionTypeRegistry.get_question_types().values(),
+        key=lambda q: q.meta.verbose_name,
+    ):
         yield (question_type.meta.name, question_type.meta.verbose_name)
 
 
 class QuestionnaireManager(models.Manager):
     def with_questions(self):
-        return self.get_queryset().prefetch_related('questions')
+        return self.get_queryset().prefetch_related("questions")
 
 
 class Questionnaire(models.Model):
@@ -44,14 +47,14 @@ class Questionnaire(models.Model):
 
         # add question fields
         for question in self.questions.all():
-            question_form_id = 'q{}'.format(question.pk)
+            question_form_id = "q{}".format(question.pk)
             question_form_dict[question_form_id] = question.question_type_obj.formfield(result_set)
 
         # bind questionnaire & result_set to form
-        question_form_dict['current_questionnaire'] = self
-        question_form_dict['current_result_set'] = result_set
+        question_form_dict["current_questionnaire"] = self
+        question_form_dict["current_result_set"] = result_set
 
-        form = type('QuestionnaireForm', (QuestionnaireFormBase,), question_form_dict)
+        form = type("QuestionnaireForm", (QuestionnaireFormBase,), question_form_dict)
 
         return form
 
@@ -74,13 +77,13 @@ class Questionnaire(models.Model):
 
 
 class Question(OrderedModel):
-    questionnaire = models.ForeignKey(Questionnaire, related_name='questions', on_delete=models.CASCADE)
+    questionnaire = models.ForeignKey(Questionnaire, related_name="questions", on_delete=models.CASCADE)
     question_text = models.CharField(max_length=5000)
     question_type = QuestionTypeField(max_length=32, choices=builtin_question_types())
     question_options = JSONField(blank=True, default=dict)
     required = models.BooleanField(default=True)
 
-    order_with_respect_to = 'questionnaire'
+    order_with_respect_to = "questionnaire"
 
     class Meta(OrderedModel.Meta):
         pass
@@ -88,7 +91,7 @@ class Question(OrderedModel):
     def question_type_class(self):
         if self.question_type:
             return QuestionTypeRegistry.get_question_type(self.question_type)
-        raise ValueError('question_type not set')
+        raise ValueError("question_type not set")
 
     @property
     def question_type_obj(self):

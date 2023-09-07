@@ -3,9 +3,9 @@ from .result import AnswerFile, QuestionAnswer, QuestionnaireResult
 
 
 __all__ = (
-    'Questionnaire',
-    'Question',
-    'QuestionnaireResult',
-    'QuestionAnswer',
-    'AnswerFile',
+    "Questionnaire",
+    "Question",
+    "QuestionnaireResult",
+    "QuestionAnswer",
+    "AnswerFile",
 )
