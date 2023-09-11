@@ -1,7 +1,6 @@
 import json
 
 from django.contrib import admin
-from django.contrib.postgres import fields as postgres_fields
 from django.forms import widgets
 
 from ordered_model.admin import OrderedTabularInline
@@ -19,11 +18,12 @@ except ImportError:
 try:
     from ordered_model.admin import OrderedInlineModelAdminMixin  # v3+
 except ImportError:
+
     class OrderedInlineModelAdminMixin(object):
         def get_urls(self):
             urls = super().get_urls()
             for inline in self.inlines:
-                if hasattr(inline, 'get_urls'):
+                if hasattr(inline, "get_urls"):
                     urls = inline.get_urls(self) + urls
             return urls
 
@@ -38,39 +38,55 @@ class PrettyJSONWidget(widgets.Textarea):
 
 class QuestionnaireQuestionListModelInline(OrderedTabularInline):
     model = Question
-    fields = ('question_type', 'question_text', 'question_options', 'required', 'order', 'move_up_down_links',)
-    readonly_fields = ('order', 'move_up_down_links',)
+    fields = (
+        "question_type",
+        "question_text",
+        "question_options",
+        "required",
+        "order",
+        "move_up_down_links",
+    )
+    readonly_fields = (
+        "order",
+        "move_up_down_links",
+    )
     extra = 1
-    ordering = ('order',)
+    ordering = ("order",)
     formfield_overrides = {
-        JSONField: {
-            'widget': PrettyJSONWidget
-        },
+        JSONField: {"widget": PrettyJSONWidget},
     }
 
 
 class QuestionnaireAnswerListModelInline(OrderedTabularInline):
     model = QuestionAnswer
-    fields = ('question', 'answer_data', 'order', 'move_up_down_links',)
-    readonly_fields = ('order', 'move_up_down_links',)
+    fields = (
+        "question",
+        "answer_data",
+        "order",
+        "move_up_down_links",
+    )
+    readonly_fields = (
+        "order",
+        "move_up_down_links",
+    )
     extra = 0
-    ordering = ('order',)
+    ordering = ("order",)
 
 
 @admin.register(Questionnaire)
 class QuestionnaireAdmin(OrderedInlineModelAdminMixin, admin.ModelAdmin):
-    list_display = ('title', )
+    list_display = ("title",)
     inlines = (QuestionnaireQuestionListModelInline,)
 
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("question_text", "question_type", "questionnaire", "required")
 
 
 @admin.register(QuestionnaireResult)
 class QuestionnaireResultAdmin(OrderedInlineModelAdminMixin, admin.ModelAdmin):
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ("created_at", "updated_at")
     inlines = (QuestionnaireAnswerListModelInline,)
 
 

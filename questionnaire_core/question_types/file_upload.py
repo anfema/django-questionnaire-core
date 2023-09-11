@@ -1,15 +1,23 @@
 import os
+from contextlib import suppress
 
+import django
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.forms import widgets
 
+
+if django.VERSION < (3, 2):
+    from django.utils.translation import ugettext_lazy as _
+else:
+    from django.utils.translation import gettext_lazy as _
+
 from .base import QuestionTypeBase
 
 
 class CustomFileInput(widgets.ClearableFileInput):
-    input_type = 'file'
+    input_type = "file"
 
     def format_value(self, value):
         """
@@ -22,20 +30,17 @@ class CustomFileInput(widgets.ClearableFileInput):
 
 class FileUpload(QuestionTypeBase):
     class Meta:
-        name = 'file_upload'
-        verbose_name = 'File upload'
+        name = "file_upload"
+        verbose_name = _("File upload")
         widget_class = CustomFileInput
 
     def formfield(self, result_set):
-        required = self.question.required
+        required: bool = self.question.required
 
         # disable required flag if field was originally required and file has already been uploaded
-        if self.question.required:
-            try:
+        if result_set.pk and self.question.required:
+            with suppress(ObjectDoesNotExist):
                 result_set.answers.get(question=self.question)
-            except ObjectDoesNotExist:
-                pass
-            else:
                 required = False
 
         return forms.FileField(
@@ -45,11 +50,9 @@ class FileUpload(QuestionTypeBase):
         )
 
     def initial_field_value(self, result_set):
-        try:
+        with suppress(ObjectDoesNotExist, ValueError):
             answer = result_set.answers.get(question=self.question)
             return answer.file_upload.file
-        except ObjectDoesNotExist:
-            return None
 
     def save(self, result_set, file_upload):
         from ..models import AnswerFile, QuestionAnswer
@@ -59,7 +62,7 @@ class FileUpload(QuestionTypeBase):
 
         try:
             answer = result_set.answers.get(question=self.question)
-        except ObjectDoesNotExist:
+        except (ObjectDoesNotExist, ValueError):
             answer = None
 
         with transaction.atomic():
@@ -72,8 +75,8 @@ class FileUpload(QuestionTypeBase):
             # save some metadata in answer_data
             file_upload_name = os.path.basename(file_upload.name)
             answer_data = {
-                'name': file_upload_name,
-                'size': file_upload.size,
+                "name": file_upload_name,
+                "size": file_upload.size,
             }
             if not answer:
                 answer = QuestionAnswer.objects.create(
@@ -85,7 +88,7 @@ class FileUpload(QuestionTypeBase):
                 answer.answer_data = answer_data
                 answer.save()
 
-            if not hasattr(answer, 'file_upload'):
+            if not hasattr(answer, "file_upload"):
                 AnswerFile.objects.create(answer=answer, file=file_upload)
             else:
                 # delete previously uploaded file from storage & update file_upload field

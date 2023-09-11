@@ -5,11 +5,13 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.black]
+line-length = 120
+target-version = ["py311"]
 
 [tool.isort]
-line_length = 120
+profile = "black"
 lines_after_imports = 2
 known_first_party = ["questionnaire_core"]
 known_django = ["django"]
 sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
-skip = ["migrations", "manage.py", "runtests.py"]
