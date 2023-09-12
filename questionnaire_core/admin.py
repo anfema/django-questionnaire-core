@@ -1,18 +1,12 @@
 import json
 
 from django.contrib import admin
+from django.db.models import JSONField
 from django.forms import widgets
 
 from ordered_model.admin import OrderedTabularInline
 
 from .models import Question, QuestionAnswer, Questionnaire, QuestionnaireResult
-
-
-try:
-    # there is no difference in the (postgres) schema, so we can easily swap between the two
-    from django.db.models import JSONField
-except ImportError:
-    from django.contrib.postgres.fields.jsonb import JSONField
 
 
 try:

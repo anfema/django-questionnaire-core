@@ -1,18 +1,12 @@
 from collections import OrderedDict
 
 from django.db import models
+from django.db.models import JSONField
 
 from ordered_model.models import OrderedModel
 
 from ..fields import DynamicStorageFileField
 from .questionnaire import Question, Questionnaire
-
-
-try:
-    # there is no difference in the (postgres) schema, so we can easily swap between the two
-    from django.db.models import JSONField
-except ImportError:
-    from django.contrib.postgres.fields.jsonb import JSONField
 
 
 class QuestionnaireResultManager(models.Manager):
