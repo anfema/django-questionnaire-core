@@ -30,7 +30,7 @@ class QuestionnaireResult(models.Model):
 
         initial_data["result_set"] = self.pk
         for question in self.questionnaire.questions.all():
-            form_field_id = "q{}".format(question.pk)
+            form_field_id = f"q{question.pk}"
             form_field_value = question.question_type_obj.initial_field_value(self)
             if form_field_value is not None:
                 initial_data[form_field_id] = form_field_value
@@ -38,7 +38,7 @@ class QuestionnaireResult(models.Model):
         return initial_data
 
     def __str__(self):
-        return "{} ({})".format(self.questionnaire, self.created_at)
+        return f"{self.questionnaire} ({self.created_at})"
 
 
 class QuestionAnswer(OrderedModel):
@@ -52,7 +52,7 @@ class QuestionAnswer(OrderedModel):
         pass
 
     def __str__(self):
-        return "{}: {}".format(self.question, self.answer_data)
+        return f"{self.question}: {self.answer_data}"
 
 
 class AnswerFile(OrderedModel):

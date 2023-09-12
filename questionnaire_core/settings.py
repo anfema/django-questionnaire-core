@@ -53,13 +53,13 @@ if getattr(settings, "QUESTIONNAIRE_CORE_ENABLED_QUESTION_TYPES", None):
                 active_type = import_string(enable_type)
                 active_question_types.append(active_type)
             except ImportError:
-                raise ImproperlyConfigured("Could not import user-defined question type: {}".format(enable_type))
+                raise ImproperlyConfigured(f"Could not import user-defined question type: {enable_type}")
         else:
             active_type = QuestionTypeRegistry.get_question_type(enable_type)
             if active_type:
                 active_question_types.append(active_type)
             else:
-                raise ImproperlyConfigured("Invalid name for builtin question type: {}".format(enable_type))
+                raise ImproperlyConfigured(f"Invalid name for builtin question type: {enable_type}")
 else:
     # default: enable all builtin question types
     active_question_types = QuestionTypeRegistry.get_question_types().values()

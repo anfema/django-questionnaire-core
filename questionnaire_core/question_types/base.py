@@ -42,7 +42,7 @@ class Options:
     def __init__(self, cls, meta):
         for required_option in self.REQUIRED:
             if not meta.get(required_option, None):
-                raise AttributeError('{}.Meta missing required field "{}"'.format(cls.__name__, required_option))
+                raise AttributeError(f'{cls.__name__}.Meta missing required field "{required_option}"')
 
         if not set(self.NAME_VALID_CHARS).issuperset(set(meta.get("name"))):
             raise ValueError(
@@ -74,9 +74,9 @@ class Options:
         Returns the packaged template for the widget if available.
         """
         if template_key == "template_name":
-            default_template = "questionnaire_core/widgets/{name}.html".format(name=self.name)
+            default_template = f"questionnaire_core/widgets/{self.name}.html"
         elif template_key == "option_template_name":
-            default_template = "questionnaire_core/widgets/{name}_option.html".format(name=self.name)
+            default_template = f"questionnaire_core/widgets/{self.name}_option.html"
         else:
             return
 
@@ -94,7 +94,7 @@ class QuestionTypeMeta(type):
     """
 
     def __new__(mcs, name, bases, attrs):
-        super_new = super(QuestionTypeMeta, mcs).__new__
+        super_new = super().__new__
 
         # register only subclasses of QuestionTypeBase not QuestionTypeBase itself
         if name == "QuestionTypeBase":
@@ -107,7 +107,7 @@ class QuestionTypeMeta(type):
             return super_new(mcs, name, bases, attrs)
 
         if not attr_meta or not inspect.isclass(attr_meta):
-            raise AttributeError("{}.Meta attribute missing or not a class".format(name))
+            raise AttributeError(f"{name}.Meta attribute missing or not a class")
 
         new_class = super_new(mcs, name, bases, attrs)
 
@@ -119,7 +119,7 @@ class QuestionTypeMeta(type):
         return new_class
 
 
-class QuestionTypeBase(object, metaclass=QuestionTypeMeta):
+class QuestionTypeBase(metaclass=QuestionTypeMeta):
     """Base class for question type classes"""
 
     class OptionsForm(forms.Form):
@@ -176,7 +176,7 @@ class QuestionTypeBase(object, metaclass=QuestionTypeMeta):
         widget = self.widget_class()(**kwargs)
         # set template attribute(s) of the widget
         for template_key in ("template_name", "option_template_name"):
-            meta_template_key = "widget_{}".format(template_key)
+            meta_template_key = f"widget_{template_key}"
             if getattr(self.question.question_type_obj.meta, meta_template_key) and hasattr(widget, template_key):
                 setattr(
                     widget,
@@ -188,7 +188,7 @@ class QuestionTypeBase(object, metaclass=QuestionTypeMeta):
     def widget_class(self):
         """Return the configured widget class for the formfield."""
         if not self.meta.widget_class:
-            raise ValueError("{}.Meta.widget_class attribute is missing.".format(self.__class__.__name__))
+            raise ValueError(f"{self.__class__.__name__}.Meta.widget_class attribute is missing.")
         return self.meta.widget_class
 
     def formfield_widget_attrs(self):

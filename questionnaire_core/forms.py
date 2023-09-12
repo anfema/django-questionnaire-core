@@ -31,7 +31,7 @@ class QuestionnaireFormBase(forms.Form):
     def clean(self):
         # per field (question/answer) validation
         for question in self.current_questionnaire.questions.all():
-            field_id = "q{}".format(question.pk)
+            field_id = f"q{question.pk}"
             answer_data = self.cleaned_data.get(field_id)
             try:
                 self.cleaned_data[field_id] = question.question_type_obj.clean_answer_data(answer_data)
@@ -52,7 +52,7 @@ class QuestionnaireFormBase(forms.Form):
             result_set.save()
 
         for question in self.current_questionnaire.questions.all():
-            answer_data = self.cleaned_data.get("q{}".format(question.pk))
+            answer_data = self.cleaned_data.get(f"q{question.pk}")
             question.question_type_obj.save(result_set, answer_data)
 
         return result_set

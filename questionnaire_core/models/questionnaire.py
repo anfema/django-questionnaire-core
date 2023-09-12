@@ -41,7 +41,7 @@ class Questionnaire(models.Model):
 
         # add question fields
         for question in self.questions.all():
-            question_form_id = "q{}".format(question.pk)
+            question_form_id = f"q{question.pk}"
             question_form_dict[question_form_id] = question.question_type_obj.formfield(result_set)
 
         # bind questionnaire & result_set to form

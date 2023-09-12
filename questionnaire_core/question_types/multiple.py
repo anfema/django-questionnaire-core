@@ -31,7 +31,7 @@ class MultipleTextField(forms.MultiValueField):
 
     def get_multi_field_count(self, post_data, field_id):
         count = 0
-        subfield_prefix = "{}_".format(field_id)
+        subfield_prefix = f"{field_id}_"
         for subfield_id, field in post_data.items():
             if subfield_id.startswith(subfield_prefix):
                 count += 1

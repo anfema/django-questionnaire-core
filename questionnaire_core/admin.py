@@ -13,7 +13,7 @@ try:
     from ordered_model.admin import OrderedInlineModelAdminMixin  # v3+
 except ImportError:
 
-    class OrderedInlineModelAdminMixin(object):
+    class OrderedInlineModelAdminMixin:
         def get_urls(self):
             urls = super().get_urls()
             for inline in self.inlines:
