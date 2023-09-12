@@ -1,14 +1,14 @@
 # django-questionnaire-core
 
 A django application which can be used as a base / starting point for questionnaire functionality in your project.
-It heavily relies on django form fields & widgets and uses PostgreSQL JSON fields to store the results.
+It heavily relies on django form fields & widgets and uses JSON fields to store the results.
 
 ## Requirements
 
-- Python version 3.6+
-- [Django](https://www.djangoproject.com) version 2.2+
+- Python version 3.8+
+- [Django](https://www.djangoproject.com) version 3.2+
 - [django-ordered-model](https://github.com/bfirsh/django-ordered-model)
-- A [PostgreSQL](https://www.postgresql.org/) Database
+- A [PostgreSQL](https://www.postgresql.org/) Database (optional since Django 3.2)
 
 
 ## Quick start
@@ -78,10 +78,10 @@ It heavily relies on django form fields & widgets and uses PostgreSQL JSON field
     python -m pip install --upgrade setuptools wheel
     ```
 
-2. Install Django (the `example_app` expects django 3.1):
+2. Install Django (the `example_app` expects django 3.2):
 
     ```bash
-    python -m pip install Django~=3.1.0 django-ordered-model psycopg2
+    python -m pip install Django~=3.2.0 django-ordered-model psycopg2
     ```
 
 3. Install tox, isort & flake8

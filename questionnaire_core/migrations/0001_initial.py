@@ -4,15 +4,9 @@ from __future__ import unicode_literals
 
 import django.db.models.deletion
 from django.db import migrations, models
+from django.db.models import JSONField
 
 import questionnaire_core.fields
-
-
-try:
-    # there is no difference in the (postgres) schema, so we can easily swap between the two
-    from django.db.models import JSONField
-except ImportError:
-    from django.contrib.postgres.fields.jsonb import JSONField
 
 
 class Migration(migrations.Migration):

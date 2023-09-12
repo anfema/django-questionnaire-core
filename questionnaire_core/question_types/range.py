@@ -1,12 +1,6 @@
-import django
 from django import forms
 from django.forms import widgets
-
-
-if django.VERSION < (3, 2):
-    from django.utils.translation import ugettext_lazy as _
-else:
-    from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .base import QuestionTypeBase
 
