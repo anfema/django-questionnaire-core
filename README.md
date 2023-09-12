@@ -6,7 +6,7 @@ It heavily relies on django form fields & widgets and uses JSON fields to store 
 ## Requirements
 
 - Python version 3.8+
-- [Django](https://www.djangoproject.com) version 2.2+
+- [Django](https://www.djangoproject.com) version 3.2+
 - [django-ordered-model](https://github.com/bfirsh/django-ordered-model)
 - A [PostgreSQL](https://www.postgresql.org/) Database (optional since Django 3.2)
 
