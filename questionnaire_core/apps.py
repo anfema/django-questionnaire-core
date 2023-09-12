@@ -3,6 +3,7 @@ from django.apps import AppConfig
 
 class QuestionnaireCoreConfig(AppConfig):
     name = "questionnaire_core"
+    default_auto_field = "django.db.models.AutoField"
 
     def ready(self):
         # validate settings on startup
